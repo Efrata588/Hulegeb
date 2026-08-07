@@ -20,11 +20,11 @@ class ProductModel {
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
     id: json["id"],
     title: json["title"],
-    price: json["price"],
+    price: (json["price"] as num).toDouble(),
     image: json["image"],
-    rating: json["rating"],
+    rating: Map<String, dynamic>.from(json["rating"] ?? {}),
     description: json["description"],
-    catagory: json["catagory"],
+    catagory: json["category"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -34,6 +34,6 @@ class ProductModel {
     "image": image,
     "rating": rating,
     "description": description,
-    "catagory": catagory,
+    "category": catagory,
   };
 }

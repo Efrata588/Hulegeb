@@ -1,30 +1,30 @@
 import 'dart:convert';
 import '../../models/cart_model.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageService {
-  static const _secureStorage = FlutterSecureStorage();
   static const String _cartKey = 'cart_key';
   static const String _tokenKey = 'auth_token';
-  static const String _summaryKey = 'current_cached_cart _summary';
+  static const String _summaryKey = 'current_cached_cart_summary';
   // static const String _cartHistoryKey='cart_history';
 
   //  save token to secure storage
 
   static Future<void> saveToken(String token) async {
     try {
-      await _secureStorage.write(key: _tokenKey, value: token);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_tokenKey, token);
     } catch (e) {
       throw Exception('failed to save token $e');
     }
   }
 
-  // get token from secure storage
+  // get token from shared preferences
 
   static Future<String?> getToken() async {
     try {
-      return await _secureStorage.read(key: _tokenKey);
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString(_tokenKey);
     } catch (e) {
       throw Exception('failed to read token $e');
     }
@@ -33,7 +33,8 @@ class LocalStorageService {
   // delete the token if they logout
   static Future<void> deleteToken() async {
     try {
-      await _secureStorage.delete(key: _tokenKey);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_tokenKey);
     } catch (e) {
       throw Exception('failed to delete token $e');
     }

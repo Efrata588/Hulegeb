@@ -26,7 +26,7 @@ class CartModel {
     'id': id,
     'userId': userId,
     'date': date,
-    'products': products,
+    'products': products.map((item) => item.toJson()).toList(),
   };
 }
 
@@ -42,8 +42,26 @@ class CartItem {
   };
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
+    if (json['product'] is Map<String, dynamic>) {
+      return CartItem(
+        product: ProductModel.fromJson(
+          Map<String, dynamic>.from(json['product']),
+        ),
+        quantity: json['quantity'],
+      );
+    }
+
+    final productId = json['productId'] ?? json['product']?['id'] ?? 0;
     return CartItem(
-      product: ProductModel.fromJson(json['product']),
+      product: ProductModel(
+        id: productId,
+        title: 'Unknown Product',
+        price: 0.0,
+        image: '',
+        rating: {},
+        description: '',
+        catagory: 'unknown',
+      ),
       quantity: json['quantity'],
     );
   }
@@ -81,7 +99,7 @@ class CartSummaryModle {
       );
   Map<String, dynamic> toJson() => {
     'id': id,
-    'cartId': userId,
+    'userId': userId,
     'totalItems': totalItems,
     'totalPriceBeforeTax': totalPriceBeforeTax,
     'estimatedTax': estimatedTax,
