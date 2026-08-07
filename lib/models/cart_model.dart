@@ -4,7 +4,7 @@ class CartModel {
   final int id;
   final int userId;
   final String date;
-  final List<Map<String, dynamic>> products;
+  final List<CartItem> products;
 
   CartModel({
     required this.id,
@@ -17,7 +17,9 @@ class CartModel {
     id: json['id'],
     userId: json['userId'],
     date: json['date'],
-    products: json['products'],
+    products: (json['products'] as List)
+        .map((product) => CartItem.fromJson(product))
+        .toList(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -32,7 +34,19 @@ class CartItem {
   final ProductModel product;
   int quantity;
 
-  CartItem({required this.product, required this.quantity});
+  CartItem({required this.product, this.quantity = 1});
+
+  Map<String, dynamic> toJson() => {
+    'product': product.toJson(),
+    'quantity': quantity,
+  };
+
+  factory CartItem.fromJson(Map<String, dynamic> json) {
+    return CartItem(
+      product: ProductModel.fromJson(json['product']),
+      quantity: json['quantity'],
+    );
+  }
 }
 
 // if needed summary model
@@ -59,13 +73,12 @@ class CartSummaryModle {
   factory CartSummaryModle.fromJson(Map<String, dynamic> json) =>
       CartSummaryModle(
         id: json['id'],
-        userId: json['cartId'],
+        userId: json['userId'], // Fixed from 'cartId'
         totalItems: json['totalItems'],
-        totalPriceBeforeTax: json['totalPriceBeforeTax'],
-        estimatedTax: json['estimatedTax'],
-        totalPriceAfterTax: json['totalPriceAfterTax'],
+        totalPriceBeforeTax: (json['totalPriceBeforeTax'] as num).toDouble(),
+        estimatedTax: (json['estimatedTax'] as num).toDouble(),
+        totalPriceAfterTax: (json['totalPriceAfterTax'] as num).toDouble(),
       );
-
   Map<String, dynamic> toJson() => {
     'id': id,
     'cartId': userId,

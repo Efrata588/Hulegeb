@@ -7,8 +7,8 @@ class ApiServices {
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: 'https://fakestoreapi.com',
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
     ),
   );
 
@@ -88,7 +88,7 @@ class ApiServices {
     }
   }
 
-  ///list of carts associated with each customer/user
+  ///list of carts associated with each customer/user for crat history
 
   Future<List<CartModel>> getUserCarts(int userId) async {
     try {
