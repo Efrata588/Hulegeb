@@ -1,8 +1,10 @@
+import 'package:hulegeb/models/product_model.dart';
+
 class CartModel {
   final int id;
   final int userId;
   final String date;
-  final Map<String, dynamic> products;
+  final List<Map<String, dynamic>> products;
 
   CartModel({
     required this.id,
@@ -26,11 +28,18 @@ class CartModel {
   };
 }
 
+class CartItem {
+  final ProductModel product;
+  int quantity;
+
+  CartItem({required this.product, required this.quantity});
+}
+
 // if needed summary model
 
 class CartSummaryModle {
   final int id;
-  final int cartId;
+  final int userId;
   final int totalItems;
   final double totalPriceBeforeTax;
   final double estimatedTax;
@@ -38,7 +47,7 @@ class CartSummaryModle {
 
   CartSummaryModle({
     required this.id,
-    required this.cartId,
+    required this.userId,
     required this.totalItems,
     required this.totalPriceBeforeTax,
     required this.estimatedTax,
@@ -50,7 +59,7 @@ class CartSummaryModle {
   factory CartSummaryModle.fromJson(Map<String, dynamic> json) =>
       CartSummaryModle(
         id: json['id'],
-        cartId: json['cartId'],
+        userId: json['cartId'],
         totalItems: json['totalItems'],
         totalPriceBeforeTax: json['totalPriceBeforeTax'],
         estimatedTax: json['estimatedTax'],
@@ -59,7 +68,7 @@ class CartSummaryModle {
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'cartId': cartId,
+    'cartId': userId,
     'totalItems': totalItems,
     'totalPriceBeforeTax': totalPriceBeforeTax,
     'estimatedTax': estimatedTax,
