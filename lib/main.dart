@@ -15,8 +15,8 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Fake Store E-Commerce',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      title: 'Hulegeb',
+      // theme: ThemeData(primarySwatch: Colors.blue),
       routerConfig: router,
     );
   }
