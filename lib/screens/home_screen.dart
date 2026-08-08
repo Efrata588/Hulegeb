@@ -19,12 +19,15 @@ class HomeScreen extends ConsumerWidget {
       backgroundColor: const Color(0xFFE4E4E4),
       appBar: AppBar(
         backgroundColor: const Color(0xFF98080B),
-        title: const Text(
-          'Hulegeb Store',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: Colors.white,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: const Text(
+            'Hulegeb',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              color: Colors.white,
+            ),
           ),
         ),
         actions: [
@@ -32,14 +35,21 @@ class HomeScreen extends ConsumerWidget {
             icon: const Icon(Icons.shopping_bag_outlined, color: Colors.white),
             onPressed: () => context.push('/cart'),
           ),
+          SizedBox(width: 5),
           IconButton(
             icon: const Icon(Icons.person_outline, color: Colors.white),
             onPressed: () => context.push('/profile'),
           ),
+          SizedBox(width: 20),
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 16,
+          bottom: 16,
+          top: 20,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -51,17 +61,20 @@ class HomeScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.grey.shade300),
               ),
-              child: TextField(
-                onChanged: (val) =>
-                    ref.read(searchQueryProvider.notifier).state = val,
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.search, color: Color(0xFF98080B)),
-                  hintText: 'Search products by title...',
-                  border: InputBorder.none,
+              child: SizedBox(
+                height: 45,
+                child: TextField(
+                  onChanged: (val) =>
+                      ref.read(searchQueryProvider.notifier).state = val,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.search, color: Color(0xFF98080B)),
+                    hintText: 'Search products by title...',
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
 
             // Category Horizontal List
             categoriesAsync.when(
@@ -77,6 +90,7 @@ class HomeScreen extends ConsumerWidget {
                       final cat = allCats[idx];
                       final isSelected = selectedCategory == cat;
                       return ChoiceChip(
+                        showCheckmark: false,
                         label: Text(
                           cat == 'all' ? 'All Products' : cat.toUpperCase(),
                           style: TextStyle(
@@ -100,7 +114,7 @@ class HomeScreen extends ConsumerWidget {
               loading: () => const SizedBox(height: 38),
               error: (_, _) => const SizedBox.shrink(),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 30),
 
             // Products Grid
             productsAsync.when(
@@ -128,8 +142,9 @@ class HomeScreen extends ConsumerWidget {
                 return GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent:
+                        220, // Maximum width a single card can reach before adding a new column
                     childAspectRatio: 0.72,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
@@ -141,7 +156,7 @@ class HomeScreen extends ConsumerWidget {
                     return GestureDetector(
                       onTap: () => context.push('/details', extra: product.id),
                       child: Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
@@ -153,9 +168,14 @@ class HomeScreen extends ConsumerWidget {
                             Stack(
                               children: [
                                 Container(
-                                  height: 110,
+                                  height: 120,
                                   width: double.infinity,
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.only(
+                                    left: 8,
+                                    right: 8,
+                                    top: 8,
+                                    bottom: 0,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFF9F9F9),
                                     borderRadius: BorderRadius.circular(12),
@@ -172,7 +192,7 @@ class HomeScreen extends ConsumerWidget {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8),
+                            const Spacer(),
                             Text(
                               product.catagory.toUpperCase(),
                               style: const TextStyle(
