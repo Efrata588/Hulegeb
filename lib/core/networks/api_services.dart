@@ -9,6 +9,10 @@ class ApiServices {
       baseUrl: 'https://fakestoreapi.com',
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
+      headers: {
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+      },
     ),
   );
 
@@ -20,7 +24,8 @@ class ApiServices {
         '/auth/login',
         data: {'username': username, 'password': password},
       );
-      if (response.statusCode == 200 && response.data['token'] != null) {
+      if ((response.statusCode == 200 || response.statusCode == 201) &&
+          response.data['token'] != null) {
         return response.data['token'];
       }
       return null;
@@ -35,8 +40,12 @@ class ApiServices {
   Future<List<ProductModel>> getProducts() async {
     try {
       final response = await _dio.get('/products');
-      return (response.data)
-          .map((json) => ProductModel.fromJson(json))
+      final data = response.data as List<dynamic>;
+      return data
+          .map(
+            (json) =>
+                ProductModel.fromJson(Map<String, dynamic>.from(json as Map)),
+          )
           .toList();
     } catch (e) {
       throw Exception('Failed to load products:$e');
@@ -62,7 +71,13 @@ class ApiServices {
   Future<List<CartModel>> getAllCarts() async {
     try {
       final response = await _dio.get('/carts');
-      return (response.data).map((json) => CartModel.fromJson(json)).toList();
+      final data = response.data as List<dynamic>;
+      return data
+          .map(
+            (json) =>
+                CartModel.fromJson(Map<String, dynamic>.from(json as Map)),
+          )
+          .toList();
     } catch (e) {
       throw Exception('Failed to load carts:$e');
     }
@@ -93,9 +108,12 @@ class ApiServices {
   Future<List<CartModel>> getUserCarts(int userId) async {
     try {
       final response = await _dio.get('/carts/user/$userId');
-
-      return (response.data as List)
-          .map((json) => CartModel.fromJson(json))
+      final data = response.data as List<dynamic>;
+      return data
+          .map(
+            (json) =>
+                CartModel.fromJson(Map<String, dynamic>.from(json as Map)),
+          )
           .toList();
     } catch (e) {
       throw Exception('Failed to fetch user carts: $e');
