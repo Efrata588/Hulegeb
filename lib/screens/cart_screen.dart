@@ -122,6 +122,7 @@ class CartScreen extends ConsumerWidget {
                                   icon: const Icon(
                                     Icons.remove_circle_outline,
                                     size: 20,
+                                    color: Color(0xFF98080B),
                                   ),
                                   onPressed: () {
                                     if (item.quantity > 1) {
@@ -145,6 +146,7 @@ class CartScreen extends ConsumerWidget {
                                   icon: const Icon(
                                     Icons.add_circle_outline,
                                     size: 20,
+                                    color: Color(0xFF98080B),
                                   ),
                                   onPressed: () {
                                     ref
