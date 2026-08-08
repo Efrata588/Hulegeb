@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
 import '../provider/product_provider.dart';
 import '../provider/cart_provider.dart';
 import 'dart:math' as math;
@@ -29,6 +30,18 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           'Product Details',
           style: TextStyle(color: Colors.white),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_bag_outlined, color: Colors.white),
+            onPressed: () => context.push('/cart'),
+          ),
+          SizedBox(width: 5),
+          IconButton(
+            icon: const Icon(Icons.person_outline, color: Colors.white),
+            onPressed: () => context.push('/profile'),
+          ),
+          SizedBox(width: 20),
+        ],
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: productsAsync.when(
@@ -39,7 +52,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           );
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -57,9 +70,14 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                     fit: BoxFit.contain,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 26),
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.only(
+                    left: 25,
+                    right: 25,
+                    top: 35,
+                    bottom: 35,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
@@ -73,8 +91,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                         children: [
                           Chip(
                             label: Text(product.catagory.toUpperCase()),
-                            backgroundColor: const Color(
-                              0xFF98080B,
+                            backgroundColor: const Color.fromARGB(
+                              93,
+                              183,
+                              182,
+                              182,
                             ).withValues(alpha: 0.1),
                             labelStyle: const TextStyle(
                               color: Color(0xFF98080B),
@@ -135,7 +156,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           IconButton(
-                            icon: const Icon(Icons.remove_circle_outline),
+                            icon: const Icon(
+                              Icons.remove_circle_outline,
+                              color: Color(0xFF98080B),
+                            ),
                             onPressed: () => setState(
                               () => quantity = math.max(1, quantity - 1),
                             ),
@@ -148,7 +172,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             ),
                           ),
                           IconButton(
-                            icon: const Icon(Icons.add_circle_outline),
+                            icon: const Icon(
+                              Icons.add_circle_outline,
+                              color: Color(0xFF98080B),
+                            ),
                             onPressed: () => setState(() => quantity++),
                           ),
                         ],
