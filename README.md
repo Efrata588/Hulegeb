@@ -1,17 +1,36 @@
-# hulegeb
+# Hulegeb 🛒
 
-A new Flutter project.
+A modern E-Commerce Flutter application built for a class project, integrating with a public REST API for product catalog, user authentication, and shopping cart management.
 
-## Getting Started
+## 🚀 Features
 
-This project is a starting point for a Flutter application.
+- **Product Catalog**: Fetch, view, and search products with real-time filtering.
+- **User Authentication**: Secure user login using token storage.
+- **Cart Management**: Add, update, remove items, and manage shopping carts.
+- **User Profile**: View and edit user details.
 
-A few resources to get you started if this is your first Flutter project:
+## 🌐 Public API
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Powered by [FakeStoreAPI](https://fakestoreapi.com):
+- Base URL: `https://fakestoreapi.com`
+- Endpoints used: `/products`, `/carts`, `/users`, `/auth/login`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Tech Stack & Dependencies
+
+- **Framework**: Flutter & Dart
+- **State Management**: Riverpod (`flutter_riverpod`)
+- **Networking**: Dio (`dio`)
+- **Routing**: Go Router (`go_router`)
+- **Storage**: `flutter_secure_storage` & `shared_preferences`
+
+## ⚡ Getting Started
+
+1. **Clone the repository**
+2. **Install dependencies**:
+   ```bash
+   flutter pub get
+   ```
+3. **Run the app**:
+   ```bash
+   flutter run
+   ```
